@@ -49,7 +49,7 @@ function Navbar() {
               <Link className="nav-link" to="/courses">Courses</Link>
             </li>
 
-            {user && (
+            {user && user.role === 'student' && (
               <li className="nav-item">
                 <Link className="nav-link" to="/my-bookings">My Bookings</Link>
               </li>
@@ -77,10 +77,19 @@ function Navbar() {
                   <li>
                     <Link className="dropdown-item" to="/profile">Profile</Link>
                   </li>
+
+                  {user?.role === 'admin' && (
+                    <li>
+                      <Link className="dropdown-item" to="/admin/dashboard">Dashboard</Link>
+                    </li>
+                  )}
+
                   <li>
                     <Link className="dropdown-item" to="/change-password">Change Password</Link>
                   </li>
+
                   <li><hr className="dropdown-divider" /></li>
+
                   <li>
                     <button className="dropdown-item text-danger" onClick={handleLogout}>Logout</button>
                   </li>

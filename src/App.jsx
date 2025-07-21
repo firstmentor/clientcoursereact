@@ -13,6 +13,7 @@ import MyBookings from './pages/MyBookings';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';  
+import Booking from './pages/Booking';
 
 function App() {
   return (
@@ -23,10 +24,12 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/courses" element={<Courses />} />
-          <Route path="/courses/:id" element={<CourseDetails />} />
+          <Route path="/course/:id" element={<CourseDetails />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/my-bookings" element={<MyBookings />} />
+          <Route path="/booking/:id" element={<Booking />} />
+
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
         </Routes>
       </div>

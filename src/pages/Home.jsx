@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import API from '../services/api'; // your axios instance
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Link } from 'react-router-dom';
 
 function Home() {
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const res = await API.get('/course');
+        setCourses(res.data);
+      } catch (err) {
+        console.error('Error fetching courses:', err);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
   return (
     <div>
-
       {/* Banner Section */}
       <section className="bg-primary text-white text-center py-5">
         <div className="container">
@@ -21,43 +37,29 @@ function Home() {
         <div className="container">
           <h2 className="text-center mb-4">Popular Courses</h2>
           <div className="row">
-
-            {/* Course Card 1 */}
-            <div className="col-md-4">
-              <div className="card shadow-sm">
-                <img src="https://source.unsplash.com/400x250/?coding,programming" className="card-img-top" alt="Course 1" />
-                <div className="card-body">
-                  <h5 className="card-title">Full Stack Web Development</h5>
-                  <p className="card-text">Learn HTML, CSS, JavaScript, React, Node.js, and MongoDB in one course!</p>
-                  <a href="/course/1" className="btn btn-primary">View Details</a>
+            {courses.map((course) => (
+              <div className="col-md-4 mb-4" key={course._id}>
+                <div className="card shadow-sm h-100">
+                  <img
+                    src={course.image || 'https://via.placeholder.com/400x250?text=Course'}
+                    className="card-img-top"
+                    alt={course.title}
+                    style={{ height: '200px', objectFit: 'cover' }}
+                  />
+                  <div className="card-body d-flex flex-column">
+                    <h5 className="card-title">{course.title}</h5>
+                    <p className="card-text">{course.description.slice(0, 80)}...</p>
+                    <p className="fw-bold text-primary">₹{course.price}</p>
+                    <Link to={`/course/${course._id}`} className="btn btn-outline-primary mt-auto">View Details</Link>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            {/* Course Card 2 */}
-            <div className="col-md-4">
-              <div className="card shadow-sm">
-                <img src="https://source.unsplash.com/400x250/?data,python" className="card-img-top" alt="Course 2" />
-                <div className="card-body">
-                  <h5 className="card-title">Data Science with Python</h5>
-                  <p className="card-text">Master data analysis, visualization, pandas, and machine learning.</p>
-                  <a href="/course/2" className="btn btn-primary">View Details</a>
-                </div>
+            ))}
+            {courses.length === 0 && (
+              <div className="text-center text-muted">
+                <p>No courses found.</p>
               </div>
-            </div>
-
-            {/* Course Card 3 */}
-            <div className="col-md-4">
-              <div className="card shadow-sm">
-                <img src="https://source.unsplash.com/400x250/?cloud,server" className="card-img-top" alt="Course 3" />
-                <div className="card-body">
-                  <h5 className="card-title">DevOps & Cloud</h5>
-                  <p className="card-text">Understand CI/CD pipelines, Docker, Kubernetes, and AWS basics.</p>
-                  <a href="/course/3" className="btn btn-primary">View Details</a>
-                </div>
-              </div>
-            </div>
-
+            )}
           </div>
         </div>
       </section>
@@ -88,7 +90,6 @@ function Home() {
           </div>
         </div>
       </section>
-
     </div>
   );
 }

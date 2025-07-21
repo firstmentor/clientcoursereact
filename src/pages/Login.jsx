@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import API from '../services/api';
 import { AuthContext } from '../context/AuthContext';
 import { toast } from 'react-toastify';
@@ -20,16 +20,22 @@ const Login = () => {
     try {
       const res = await API.post('/login', formData);
 
-      // Set user in context
-      setUser({
+      const userData = {
         name: res.data.name,
         email: res.data.email,
         role: res.data.role,
-        isAuthenticated: true
-      });
+        isAuthenticated: true,
+      };
+
+      setUser(userData);
 
       toast.success('Login successful');
-      navigate('/my-bookings');
+
+      if (res.data.role === 'admin') {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/');
+      }
     } catch (err) {
       toast.error(err.response?.data?.message || 'Login failed');
     } finally {
@@ -38,39 +44,57 @@ const Login = () => {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center vh-100">
-      <div className="card shadow p-4" style={{ width: '100%', maxWidth: '400px' }}>
-        <h2 className="text-center mb-4">Login</h2>
+    <div className="container d-flex justify-content-center align-items-center min-vh-100 bg-light">
+      <div className="card shadow-lg p-4 rounded-4" style={{ width: '100%', maxWidth: '420px' }}>
+        <h3 className="text-center mb-4 text-primary">Welcome Back!</h3>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label>Email</label>
+            <label htmlFor="email" className="form-label">Email address</label>
             <input
               type="email"
-              name="email"
               className="form-control"
-              placeholder="Enter email"
+              id="email"
+              name="email"
               value={formData.email}
               onChange={handleChange}
+              placeholder="Enter your email"
               required
             />
           </div>
 
           <div className="mb-3">
-            <label>Password</label>
+            <label htmlFor="password" className="form-label">Password</label>
             <input
               type="password"
-              name="password"
               className="form-control"
-              placeholder="Enter password"
+              id="password"
+              name="password"
               value={formData.password}
               onChange={handleChange}
+              placeholder="Enter your password"
               required
             />
           </div>
 
-          <button type="submit" className="btn btn-primary w-100" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login'}
-          </button>
+          <div className="d-grid mb-3">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={loading}
+            >
+              {loading ? 'Logging in...' : 'Login'}
+            </button>
+          </div>
+
+          <div className="text-center">
+            <small>
+              Don't have an account? <Link to="/register">Register</Link>
+            </small>
+            <br />
+            <small>
+              <Link to="/forgot-password" className="text-muted">Forgot Password?</Link>
+            </small>
+          </div>
         </form>
       </div>
     </div>
