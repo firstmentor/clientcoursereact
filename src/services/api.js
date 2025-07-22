@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API = axios.create({
   baseURL: 'https://servercourseapi.onrender.com/api',
-  withCredentials: true, // for cookies
+  withCredentials: true, // agar cookies ka use ho raha hai
 });
 
 export default API;
