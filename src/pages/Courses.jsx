@@ -1,34 +1,62 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import API from '../services/api';
 
 function Courses() {
-  const courseList = [
-    { id: 1, title: 'Full Stack Development', desc: 'HTML, CSS, JS, React, Node.js' },
-    { id: 2, title: 'Python for Data Science', desc: 'Numpy, Pandas, Matplotlib, ML' },
-  ];
+  const [courseList, setCourseList] = useState([]);
+
+  const fetchCourses = async () => {
+    try {
+      const res = await API.get('/course');
+      setCourseList(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
   return (
-    <>
-     <div className="container py-5">
-      <h2 className="mb-4">Available Courses</h2>
+    <div className="container py-5">
+      <h2 className="text-center fw-bold mb-5">Popular Courses</h2>
       <div className="row">
         {courseList.map((course) => (
-          <div className="col-md-6 mb-4" key={course.id}>
-            <div className="card h-100 shadow">
-              <div className="card-body">
-                <h5 className="card-title">{course.title}</h5>
-                <p className="card-text">{course.desc}</p>
-                <Link to={`/courses/${course.id}`} className="btn btn-success">
+          <div className="col-md-4 mb-4" key={course._id}>
+            <div className="card h-100 shadow-sm border-0 rounded-4">
+              <img
+                src={course.image || 'https://via.placeholder.com/400x250?text=Course'}
+                alt={course.title}
+                className="card-img-top p-3"
+                style={{
+                  height: '180px',
+                  objectFit: 'contain',
+                  borderRadius: '1rem',
+                }}
+              />
+              <div className="card-body text-center">
+                <h5 className="card-title fw-semibold">{course.title}</h5>
+                <p className="text-muted small">{course.description?.substring(0, 30)}...</p>
+                <p className="fw-bold text-primary">₹{course.price}</p>
+                <Link
+                  to={`/course/${course._id}`}
+                  className="btn btn-outline-primary w-100 rounded-pill"
+                >
                   View Details
                 </Link>
               </div>
             </div>
           </div>
         ))}
+        {courseList.length === 0 && (
+          <div className="col-12 text-center">
+            <p className="text-muted">No courses available at the moment.</p>
+          </div>
+        )}
       </div>
     </div>
-    </>
-  )
+  );
 }
 
-export default Courses
+export default Courses;

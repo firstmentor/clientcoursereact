@@ -45,7 +45,7 @@ function CourseDetails() {
   if (!course) return <div className="text-center py-5 text-danger">Course not found</div>;
 
   return (
-    <div className="container py-5">
+    <div className="container py-5 mt-4">
       <div className="row align-items-center g-5">
         <div className="col-md-5">
           <img

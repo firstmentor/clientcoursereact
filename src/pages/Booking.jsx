@@ -22,7 +22,7 @@ function Booking() {
   };
 
   return (
-    <div className="container py-5 text-center">
+    <div className="container py-5 text-center mt-5">
       <h2>Confirm Your Booking</h2>
       <p className="lead">Click below to confirm course booking.</p>
       <button onClick={handleConfirmBooking} className="btn btn-success px-4 py-2" disabled={loading}>

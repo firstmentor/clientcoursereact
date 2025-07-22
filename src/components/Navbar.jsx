@@ -20,14 +20,10 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-primary fixed-top shadow">
       <div className="container">
-        <Link className="navbar-brand" to="/">
-          <img
-            src="https://pninfosys.com/assets/colorlogo-BagIKm6w.png"
-            height="40"
-            alt="PNINFOSYS"
-          />
+        <Link className="navbar-brand fw-bold text-white" to="/">
+          PNCOURSE
         </Link>
 
         <button
@@ -35,6 +31,9 @@ function Navbar() {
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -42,16 +41,16 @@ function Navbar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link" to="/">Home</Link>
+              <Link className="nav-link text-white" to="/">Home</Link>
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/courses">Courses</Link>
+              <Link className="nav-link text-white" to="/courses">Courses</Link>
             </li>
 
             {user && user.role === 'student' && (
               <li className="nav-item">
-                <Link className="nav-link" to="/my-bookings">My Bookings</Link>
+                <Link className="nav-link text-white" to="/my-bookings">My Bookings</Link>
               </li>
             )}
           </ul>
@@ -59,13 +58,13 @@ function Navbar() {
           <div className="d-flex">
             {!user ? (
               <>
-                <Link to="/login" className="btn btn-outline-primary me-2">Login</Link>
-                <Link to="/register" className="btn btn-primary">Register</Link>
+                <Link to="/login" className="btn btn-outline-light me-2">Login</Link>
+                <Link to="/register" className="btn btn-light text-primary fw-bold">Register</Link>
               </>
             ) : (
               <div className="dropdown">
                 <button
-                  className="btn btn-outline-primary dropdown-toggle"
+                  className="btn btn-outline-light dropdown-toggle"
                   type="button"
                   id="userDropdown"
                   data-bs-toggle="dropdown"
@@ -73,7 +72,7 @@ function Navbar() {
                 >
                   {user?.name || 'Account'}
                 </button>
-                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                <ul className="dropdown-menu dropdown-menu-end">
                   <li>
                     <Link className="dropdown-item" to="/profile">Profile</Link>
                   </li>

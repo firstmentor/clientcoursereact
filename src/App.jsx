@@ -11,30 +11,37 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import MyBookings from './pages/MyBookings';
 import AdminDashboard from './pages/admin/AdminDashboard';
-import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';  
 import Booking from './pages/Booking';
+import ChangePassword from './components/ChangePassword';
+
+import 'react-toastify/dist/ReactToastify.css';
+import './App.css'; // Optional: You can place global min-vh-100 or layout styles here
 
 function App() {
   return (
     <Router>
-     
-      <Navbar />
       <div className="d-flex flex-column min-vh-100">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/course/:id" element={<CourseDetails />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/my-bookings" element={<MyBookings />} />
-          <Route path="/booking/:id" element={<Booking />} />
+        <Navbar />
+        
+        <div className="flex-grow-1">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/course/:id" element={<CourseDetails />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/my-bookings" element={<MyBookings />} />
+            <Route path="/booking/:id" element={<Booking />} />
+            <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          </Routes>
+        </div>
 
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        </Routes>
+        <Footer />
+        <ToastContainer position="top-right" />
       </div>
-      <Footer />
-    </Router> 
+    </Router>
   );
 }
 
